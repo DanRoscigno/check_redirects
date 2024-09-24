@@ -15,3 +15,10 @@ source .venv/bin/activate
 ```bash
 pip install scrapy
 ```
+
+## Run a crawl
+
+```bash
+cd crawl_for_redirects
+scrapy crawl redirects
+```
