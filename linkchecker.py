@@ -31,7 +31,7 @@ def parse_my_url(response):
 
 class MySpider(CrawlSpider):
     name = "test-crawler"
-    target_domains = ["starrocks.io"]  # list of domains that will be allowed to be crawled
+    target_domains = ["www.starrocks.io"]  # list of domains that will be allowed to be crawled
     start_urls = ["https://www.starrocks.io/"]  # list of starting urls for the crawler
     handle_httpstatus_list = [
         301,
@@ -55,16 +55,23 @@ class MySpider(CrawlSpider):
                 allow_domains=target_domains,
                 deny=("patterToBeExcluded"),
                 unique=("Yes"),
-            ),
+                ),
             callback=parse_my_url,
             follow=True,
         ),
-        # crawl external links but don't follow them
-        # I don't follow what don't follow means - seems like it's actually crawling
-        # Rule(
-        # LinkExtractor(allow=(""), deny=("patterToBeExcluded"), unique=("Yes")),
-        # callback=parse_my_url,
-        # follow=False,
-        # ),
+        # crawl external links but don't follow them.
+        # This is used for the pages outside of the 
+        # target domain so that we don't crawl the
+        #  entire doc set, only the pages directly
+        # linked to from the www site.
+         Rule(
+             LinkExtractor(
+                 allow=("docs.starrocks.io"),
+                 deny=("patterToBeExcluded"),
+                 unique=("Yes")
+                 ),
+             callback=parse_my_url,
+             follow=False,
+         ),
     ]
 
