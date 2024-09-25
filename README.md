@@ -1,7 +1,7 @@
 # check_redirects
 
 ## Goal
-Make sure that the links in blogs, footer, etc. point to valid links in the docs or external sites.
+Make sure that the links in blogs, footer, etc. point to valid links in the docs.
 
 ## Virtual environment
 
@@ -14,4 +14,10 @@ source .venv/bin/activate
 
 ```bash
 pip install scrapy
+```
+
+## Run a crawl
+
+```bash
+scrapy runspider linkchecker.py -o ~/tmp/broken-links.csv
 ```
